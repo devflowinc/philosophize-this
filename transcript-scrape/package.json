@@ -1,0 +1,25 @@
+{
+  "name": "trieve-philosophize-this-ingest",
+  "module": "index.js",
+  "type": "module",
+  "scripts": {
+    "ingest": "node --env-file=.env buildIndex.js",
+    "bulk-create": "node --env-file=.env bulkCreate.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@devflowinc/trieve-js-ts-client": "^0.7.2",
+    "esm": "^3.2.25",
+    "happy-dom": "^14.7.1",
+    "mdast-util-from-markdown": "^2.0.0",
+    "mdast-util-mdx": "^3.0.0",
+    "micromark": "^4.0.0",
+    "micromark-extension-mdx": "^2.1.0",
+    "micromark-extension-mdxjs": "^3.0.0"
+  }
+}
