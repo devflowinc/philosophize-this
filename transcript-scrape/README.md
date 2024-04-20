@@ -1,4 +1,4 @@
-# mintlify --> Trieve ingest with chunking
+# Trieve Ingest for Philosophize This Podcast
 
 ## Setup
 
