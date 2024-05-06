@@ -1,9 +1,8 @@
 import * as fs from "fs";
 import { Window } from "happy-dom";
-import { splitHTMLByHeadings } from "./chunker.js";
-import { createChunks, getOrCreateChunkGroup } from "./trieve.js";
+import { getOrCreateChunkGroup } from "./trieve.js";
 
-let twoKTokenChunks = [];
+let chunksToCreate = [];
 
 const window = new Window();
 
@@ -13,6 +12,8 @@ const handleNavGroup = async (
   episodeNumber,
   episodeTitle
 ) => {
+  await getOrCreateChunkGroup(groupTrackingId);
+
   // fetch request to transcriptLink to get the transcript
   const transcriptRes = await fetch(transcriptLink);
   const transcriptText = await transcriptRes.text();
@@ -36,8 +37,8 @@ const handleNavGroup = async (
     currentChunk += word + " ";
     currentChunkWordCount += 1;
 
-    if (currentChunkWordCount >= 2000) {
-      twoKTokenChunks.push({
+    if (currentChunkWordCount >= 200) {
+      chunksToCreate.push({
         group_tracking_ids: [groupTrackingId],
         tracking_id: `${groupTrackingId}-${chunkIndex}`,
         chunk_html: currentChunk,
@@ -54,43 +55,6 @@ const handleNavGroup = async (
       chunkIndex += 1;
     }
   }
-
-  // for (const [groupTrackingId, pages] of Object.entries(groupPagesMap)) {
-  //   await getOrCreateChunkGroup(groupTrackingId);
-
-  //   let chunksToCreate = [];
-
-  //   for (const page of pages) {
-  //     const pageMarkdownText = fs.readFileSync(
-  //       `./tmp/docs/${page}.mdx`,
-  //       "utf8"
-  //     );
-
-  //     const pageHtml = micromark(pageMarkdownText, {
-  //       extensions: [mdx()],
-  //     });
-
-  //     const htmlBlocks = splitHTMLByHeadings(window, pageHtml);
-
-  //     for (const htmlBlock of htmlBlocks) {
-  //       const { tracking_id, chunk_html } = htmlBlock;
-
-  //       const uniqueTrackingId = `${page}|${tracking_id}`;
-
-  //       chunksToCreate.push({
-  //         group_tracking_ids: [groupTrackingId],
-  //         uniqueTrackingId,
-  //         chunk_html,
-  //         upsert_by_tracking_id: true,
-  //         tag_set: tracking_id.split("/"),
-  //         split_avg: true,
-  //         link: `https://mintlify.com/docs/${page}#${tracking_id}`,
-  //       });
-  //     }
-  //   }
-
-  //   createChunks(chunksToCreate);
-  // }
 };
 
 const episodeLinksJsonText = fs.readFileSync("./episodeLinks.json", "utf8");
@@ -101,8 +65,6 @@ const transcriptLinksJsonText = fs.readFileSync(
   "utf8"
 );
 const transcriptLinksJson = JSON.parse(transcriptLinksJsonText);
-
-const wrote = false;
 
 for (const episodeLink of episodeLinksJson) {
   const transcriptLink = transcriptLinksJson.find(
@@ -120,26 +82,10 @@ for (const episodeLink of episodeLinksJson) {
     episodeLink.epNum,
     episodeLink.title
   );
-
-  // if twoKTokenChunks.length >= 500 then save to file and clear the array and exit
-  if (twoKTokenChunks.length >= 500) {
-    fs.writeFileSync(
-      "./twoKTokenChunks.json",
-      JSON.stringify(twoKTokenChunks, null, 2),
-      "utf8"
-    );
-
-    twoKTokenChunks = [];
-
-    wrote = true;
-    break;
-  }
 }
 
-if (!wrote) {
-  fs.writeFileSync(
-    "./twoKTokenChunks.json",
-    JSON.stringify(twoKTokenChunks, null, 2),
-    "utf8"
-  );
-}
+fs.writeFileSync(
+  "./chunksToCreate.json",
+  JSON.stringify(chunksToCreate, null, 2),
+  "utf8"
+);
