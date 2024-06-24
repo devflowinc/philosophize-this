@@ -41,7 +41,7 @@ const handleNavGroup = async (
     chunksToCreate.push({
       group_tracking_ids: [groupTrackingId],
         tracking_id: `${groupTrackingId}-${chunkIndex}`,
-        chunk_html: paragraph,
+        chunk_html: paragraph.innerHTML,
         time_stamp: new Date(timeStamp).toISOString(),
         link: groupTrackingId,
         metadata: {
