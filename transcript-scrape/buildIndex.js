@@ -23,37 +23,34 @@ const handleNavGroup = async (
     'head > meta[itemprop="datePublished"]'
   ).content;
 
-  const innerContent = window.document.querySelector(
-    "article .sqs-html-content"
-  ).innerText;
+  const container = window.document.querySelector('article .sqs-html-content');
 
-  // construct groups of 2k words where the last group can be less than 2k words
-  const words = innerContent.split(" ");
-  let currentChunk = "";
-  let currentChunkWordCount = 0;
+  if (!container) {
+    console.error("No element with class 'sqs-html-content' found");
+    return null;
+  }
+
+  // Get all paragraphs within the container
+  const p_elements = container.getElementsByTagName('p');
+
+  // Filter out paragraphs with no text
+  const paragraphs = p_elements.filter(p => p.textContent.trim());
   let chunkIndex = 0;
 
-  for (const word of words) {
-    currentChunk += word + " ";
-    currentChunkWordCount += 1;
-
-    if (currentChunkWordCount >= 200) {
-      chunksToCreate.push({
-        group_tracking_ids: [groupTrackingId],
+  for (const paragraph of paragraphs) {
+    chunksToCreate.push({
+      group_tracking_ids: [groupTrackingId],
         tracking_id: `${groupTrackingId}-${chunkIndex}`,
-        chunk_html: currentChunk,
+        chunk_html: paragraph,
         time_stamp: new Date(timeStamp).toISOString(),
         link: groupTrackingId,
         metadata: {
           episode_number: episodeNumber,
           episode_title: episodeTitle,
-        },
-      });
+      },
+    });
 
-      currentChunk = "";
-      currentChunkWordCount = 0;
-      chunkIndex += 1;
-    }
+    chunkIndex += 1;
   }
 };
 
