@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trieve Search</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        #searchForm {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        #searchInput {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        #results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .episode {
+            border: 1px solid orange;
+            padding: 15px;
+        }
+
+        .episode h3 {
+            margin-top: 0;
+        }
+
+        .chunk {
+            border: 1px dashed gray;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; width: 100%;">
+        <div style="width: 25%; display: flex; flex-direction: column; gap: 10px; border-right: 1px solid black; height: 100vh; padding: 10px;">
+            <form id="searchQualifiers">
+        <div style="padding: 5px;">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+        </div>
+        <div style="padding: 5px;">
+            <label for="endDate">End Date:</label>
+                        <input type="date" id="endDate" name="endDate">
+                    </div>
+                <div style="padding: 5px;">
+                    <label for="searchType">Search Type:</label>
+                    <select id="searchType" name="searchType">
+                        <option value="semantic">Semantic</option>
+                        <option value="fulltext">Fulltext</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+                </div>
+                <div style="padding: 5px;">
+                    <label for="episodeRange">Episode Range:</label>
+                    <input type="text" id="episodeRange" name="episodeRange" placeholder="Greater/Less">
+                </div>
+            </form>
+        </div>
+        <div style="display: flex; flex-direction: column; width: 100%; padding: 10px; gap: 10px;">
+            <form id="searchQuery" style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" id="searchInput" name="searchInput" placeholder="Search Input Box" style="width: 100%; font-size: 1.25rem;">
+            </form>
+            <div id="results" style="margin-top: 20px; width: 100%;"></div>
+        </div>
+        
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+
+</html>
