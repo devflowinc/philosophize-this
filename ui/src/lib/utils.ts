@@ -4,9 +4,21 @@ export function formatDuration(duration: number) {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-export function getProgress(cumulativeCharacterCountAtStart: number, cumulativeCharacterCountFullGroup: number, podcastDuration: number) {
-    const totalSeconds = Math.round((cumulativeCharacterCountAtStart / cumulativeCharacterCountFullGroup) * podcastDuration);
-    const seconds = totalSeconds % 60;
-    const minutes = Math.floor(totalSeconds / 60);
-    return `Start listening around: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+function getEstimatedTimestampSeconds(cumulativeCharacterCountAtStart: number, cumulativeCharacterCountFullGroup: number, podcastDuration: number) {
+    return Math.round((cumulativeCharacterCountAtStart / cumulativeCharacterCountFullGroup) * podcastDuration);
 }
+
+export function getEstimatedTimestamp(
+    cumulativeCharacterCountAtStart: number,
+    cumulativeCharacterCountFullGroup: number,
+    podcastDuration: number
+) {
+    const estimatedTimestampSeconds = getEstimatedTimestampSeconds(cumulativeCharacterCountAtStart, cumulativeCharacterCountFullGroup, podcastDuration);
+    const seconds = estimatedTimestampSeconds % 60;
+    const minutes = Math.floor(estimatedTimestampSeconds / 60);
+    return {
+        raw_seconds: estimatedTimestampSeconds,
+        readable: `${minutes}:${seconds.toString().padStart(2, '0')}`,
+    };
+}
+

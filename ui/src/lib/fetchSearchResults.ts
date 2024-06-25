@@ -1,4 +1,4 @@
-import { formatDuration, getProgress } from './utils';
+import { formatDuration, getEstimatedTimestamp } from './utils';
 import { Episode, RequestBody } from '../types';
 import { Setter } from 'solid-js';
 
@@ -109,11 +109,11 @@ export const fetchSearchResults = debounce(async (
             paragraphNumber: scoreChunk?.metadata?.[0]?.metadata?.paragraph_number || '',
             paragraphCountGroup: scoreChunk?.metadata?.[0]?.metadata?.paragraph_count_group || 0,
             duration: formatDuration(scoreChunk?.metadata?.[0]?.metadata?.podcast_duration),
-            progress: getProgress(
+            estimatedTimestamp: getEstimatedTimestamp(
                 scoreChunk?.metadata?.[0]?.metadata?.character_count_preceeding,
                 scoreChunk?.metadata?.[0]?.metadata?.character_count_group,
                 scoreChunk?.metadata?.[0]?.metadata?.podcast_duration
-            )
+            ),
         }));
 
         setEpisodes(episodes);

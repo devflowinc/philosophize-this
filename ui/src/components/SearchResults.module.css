@@ -28,13 +28,13 @@
     text-decoration: underline;
 }
 
-.transcriptLink {
+.link {
     text-decoration: underline;
     color: #000;
     font-size: 0.8rem;
 }
 
-.transcriptLink:hover {
+.link:hover {
     font-weight: bold;
 }
 
@@ -63,3 +63,13 @@
 .episode {
     position: relative;
 }
+
+.youtubeIcon {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: 0.1rem;
+    padding-bottom: 0.1rem;
+    vertical-align: middle;
+    text-decoration: underline;
+}
+
