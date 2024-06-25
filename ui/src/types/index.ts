@@ -2,7 +2,6 @@ export interface Episode {
     title: string;
     date: string;
     chunk: string;
-    progress: string;
     transcriptLink: string;
     episodeLink: string;
     episodeNumber: string;
@@ -11,6 +10,10 @@ export interface Episode {
     paragraphNumber: string;
     score: number;
     paragraphCountGroup: number;
+    estimatedTimestamp: {
+        raw_seconds: number;
+        readable: string;
+    };
 }
 
 export interface RequestBody {
