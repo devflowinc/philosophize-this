@@ -11,7 +11,7 @@ const handleNavGroup = async (
   transcriptLink,
   groupTrackingId,
   episodeNumber,
-  episodeTitle
+  episodeTitle,
 ) => {
   await getOrCreateChunkGroup(groupTrackingId);
 
@@ -37,7 +37,12 @@ const handleNavGroup = async (
   // Filter out paragraphs with no text
   const paragraphs = p_elements.filter(p => p.textContent.trim());
   let chunkIndex = 0;
-
+  
+  // Calculate the total number of characters in all paragraphs
+  const cumulativeCharacterCountFullGroup = paragraphs.reduce(
+    (acc, p) => acc + p.textContent.length, 0
+  );
+  
   const podcastDuration = await getPodcastDuration(groupTrackingId);
   let cumulativeCharacterCount = 0
   for (const paragraph of paragraphs) {
@@ -54,9 +59,12 @@ const handleNavGroup = async (
       metadata: {
         episode_number: episodeNumber,
         episode_title: episodeTitle,
-        paragraph_number: chunkIndex,
-        character_count: paragraph.textContent.length,
-        cumulative_character_count_at_start: cumulativeCharacterCount,
+        transcript_link: transcriptLink,
+        paragraph_number: chunkIndex+1,
+        paragraph_count_group: paragraphs.length,
+        character_count_chunk: paragraph.textContent.length,
+        character_count_preceeding: cumulativeCharacterCount,
+        character_count_group: cumulativeCharacterCountFullGroup,
         podcast_duration: podcastDuration,
       },
     });
@@ -141,10 +149,9 @@ for (const episodeLink of episodeLinksJson) {
     transcriptLink.link,
     episodeLink.link,
     episodeLink.epNum,
-    episodeLink.title
+    episodeLink.title,
   );
 }
-
 fs.writeFileSync(
   "./chunksToCreate.json",
   JSON.stringify(chunksToCreate, null, 2),
