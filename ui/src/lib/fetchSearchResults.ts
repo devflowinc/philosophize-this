@@ -81,6 +81,8 @@ export const fetchSearchResults = debounce(async (
             body: JSON.stringify(requestBody),
         });
 
+        console.log('Request:', { method: "POST", headers: { "Content-Type": "application/json", "TR-Dataset": "7a31f610-dcff-4d4b-acb6-77b856ecf09d", "Authorization": import.meta.env.TRIEVE_API_KEY }, body: JSON.stringify(requestBody) });
+
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(`API error: ${errorData.message || response.statusText}`);
