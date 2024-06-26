@@ -8,6 +8,7 @@ type SearchState = {
   episodeRangeMax: number | undefined;
   dateRangeFrom: string | undefined;
   dateRangeTo: string | undefined;
+  pageNumber: number;
 };
 
 type SearchActions = {
@@ -17,6 +18,7 @@ type SearchActions = {
   setEpisodeRangeMax: (max: number | undefined) => void;
   setDateRangeFrom: (from: string | undefined) => void;
   setDateRangeTo: (to: string | undefined) => void;
+  setPageNumber: (pageNumber: number) => void;
 };
 
 type SearchStore = [SearchState, SearchActions];
@@ -31,6 +33,7 @@ export function SearchProvider(props: { children: JSX.Element }) {
     episodeRangeMax: undefined,
     dateRangeFrom: undefined,
     dateRangeTo: undefined,
+    pageNumber: 1,
   });
 
   const store: SearchStore = [
@@ -42,6 +45,7 @@ export function SearchProvider(props: { children: JSX.Element }) {
       setEpisodeRangeMax: (max) => setState("episodeRangeMax", max),
       setDateRangeFrom: (from) => setState("dateRangeFrom", from),
       setDateRangeTo: (to) => setState("dateRangeTo", to),
+      setPageNumber: (pageNumber) => setState("pageNumber", pageNumber),
     },
   ];
 
@@ -55,7 +59,7 @@ export function SearchProvider(props: { children: JSX.Element }) {
 export function useSearch() {
   const context = useContext(SearchContext);
   if (!context) {
-      throw new Error('useSearch must be used within a SearchProvider');
+    throw new Error("useSearch must be used within a SearchProvider");
   }
   return context;
 }
