@@ -28,13 +28,22 @@ const SearchResults = () => {
     searchActions.setQuery(query || "");
     searchActions.setSearchType(searchType || "hybrid");
     searchActions.setEpisodeRangeMin(
-      episodeRangeMin ? parseInt(episodeRangeMin) : undefined
+      episodeRangeMin ? parseInt(episodeRangeMin) : undefined,
     );
     searchActions.setEpisodeRangeMax(
-      episodeRangeMax ? parseInt(episodeRangeMax) : undefined
+      episodeRangeMax ? parseInt(episodeRangeMax) : undefined,
     );
     searchActions.setDateRangeFrom(dateRangeFrom);
     searchActions.setDateRangeTo(dateRangeTo);
+
+    document.getElementById("scroller")?.addEventListener("scroll", () => {
+      const scrollTop = document.getElementById("scroller")!.scrollTop;
+      const clientHieght = document.getElementById("scroller")!.clientHeight;
+      const scrollHeight = document.getElementById("scroller")!.scrollHeight;
+      if (scrollTop + clientHieght >= scrollHeight - 200) {
+        searchActions.setPageNumber(state.pageNumber + 1);
+      }
+    });
   });
 
   createEffect(() => {
@@ -45,6 +54,7 @@ const SearchResults = () => {
       episodeRangeMax,
       dateRangeFrom,
       dateRangeTo,
+      pageNumber,
     } = state;
 
     setSearchParams({
@@ -54,8 +64,8 @@ const SearchResults = () => {
       episodeRangeMax,
       dateRangeFrom,
       dateRangeTo,
+      pageNumber,
     });
-
     fetchSearchResults(
       query,
       searchType,
@@ -63,13 +73,14 @@ const SearchResults = () => {
       episodeRangeMax,
       dateRangeFrom,
       dateRangeTo,
+      pageNumber,
       setEpisodes,
-      setIsLoading
+      setIsLoading,
     );
   });
 
   return (
-    <div class="mt-4">
+    <div class="my-4 overflow-y-scroll" id="scroller">
       <div
         classList={{
           "grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-4": true,
@@ -115,6 +126,6 @@ const SearchResults = () => {
       </div>
     </div>
   );
-}
+};
 
 export default SearchResults;

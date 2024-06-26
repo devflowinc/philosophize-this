@@ -22,8 +22,9 @@ export const fetchSearchResults = debounce(
     episodeRangeMax: number | undefined,
     dateRangeFrom: string | undefined,
     dateRangeTo: string | undefined,
+    pageNumber: number,
     setEpisodes: Setter<Episode[]>,
-    setIsLoading: Setter<boolean>
+    setIsLoading: Setter<boolean>,
   ) => {
     if (!query) {
       setEpisodes([]);
@@ -34,11 +35,13 @@ export const fetchSearchResults = debounce(
 
     try {
       let requestBody: RequestBody = {
+        page_size: 12,
         query: query,
         search_type: searchType,
         filters: {
           must: [],
         },
+        page: pageNumber,
       };
 
       // Add date range filter if dates are set
@@ -91,13 +94,11 @@ export const fetchSearchResults = debounce(
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          `API error: ${errorData.message || response.statusText}`
+          `API error: ${errorData.message || response.statusText}`,
         );
       }
 
       const data = await response.json();
-
-      console.log("Data:", data);
 
       const episodes = (data.score_chunks || []).map(
         (scoreChunk: any): Episode => ({
@@ -114,7 +115,7 @@ export const fetchSearchResults = debounce(
                   day: "numeric",
                   year: "numeric",
                   timeZone: "UTC",
-                }
+                },
               )
             : "Unknown Date",
           chunk:
@@ -129,17 +130,17 @@ export const fetchSearchResults = debounce(
           paragraphCountGroup:
             scoreChunk?.metadata?.[0]?.metadata?.paragraph_count_group || 0,
           duration: formatDuration(
-            scoreChunk?.metadata?.[0]?.metadata?.podcast_duration
+            scoreChunk?.metadata?.[0]?.metadata?.podcast_duration,
           ),
           estimatedTimestamp: getEstimatedTimestamp(
             scoreChunk?.metadata?.[0]?.metadata?.character_count_preceeding,
             scoreChunk?.metadata?.[0]?.metadata?.character_count_group,
-            scoreChunk?.metadata?.[0]?.metadata?.podcast_duration
+            scoreChunk?.metadata?.[0]?.metadata?.podcast_duration,
           ),
-        })
+        }),
       );
 
-      setEpisodes(episodes);
+      setEpisodes((prevEpisodes) => [...prevEpisodes, ...episodes]);
     } catch (error) {
       console.error("Error fetching search results:", error);
       setEpisodes([]);
@@ -147,5 +148,5 @@ export const fetchSearchResults = debounce(
       setIsLoading(false);
     }
   },
-  300
+  300,
 );
