@@ -1,77 +1,92 @@
-import { useSearch } from '../SearchContext';
-import styles from './SearchQualifiers.module.css';
+import { useSearch } from "../SearchContext";
 
 function SearchQualifiers() {
-    const [state, { setSearchType,
-        setEpisodeRangeMin,
-        setEpisodeRangeMax,
-        setDateRangeFrom,
-        setDateRangeTo
-    }] = useSearch();
+  const [
+    state,
+    {
+      setSearchType,
+      setEpisodeRangeMin,
+      setEpisodeRangeMax,
+      setDateRangeFrom,
+      setDateRangeTo,
+    },
+  ] = useSearch();
 
-    return (<>
-        <div class={styles.qualifier}>
-            <label>Date Range</label>
-            <label class={styles.smallLabel}>From</label>
-            <input
-                type="date"
-                value={state.dateRangeFrom || ''}
-                onInput={(e) => setDateRangeFrom(e.currentTarget.value)}
-            />
-            <label class={styles.smallLabel}>To</label>
-            <input
-                type="date"
-                value={state.dateRangeTo || ''}
-                onInput={(e) => setDateRangeTo(e.currentTarget.value)}
-            />
+  return (
+    <div>
+      <div class="flex flex-col gap-2 mb-4">
+        <label>Date Range</label>
+        <label class="text-sm text-gray-600">From</label>
+        <input
+          type="date"
+          value={state.dateRangeFrom || ""}
+          onInput={(e) => setDateRangeFrom(e.currentTarget.value)}
+          class="border border-gray-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
+        />
+        <label class="text-sm text-gray-600">To</label>
+        <input
+          type="date"
+          value={state.dateRangeTo || ""}
+          onInput={(e) => setDateRangeTo(e.currentTarget.value)}
+          class="border border-gray-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
+        />
+      </div>
+      <div class="flex flex-col gap-2 mb-4">
+        <label>Search Type</label>
+        <div class="grid grid-cols-3 gap-4">
+          <button
+            classList={{
+              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "bg-fuchsia-100 border-fuchsia-500":
+                state.searchType === "hybrid",
+            }}
+            onClick={() => setSearchType("hybrid")}
+          >
+            Hybrid
+          </button>
+          <button
+            classList={{
+              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "bg-fuchsia-100 border-fuchsia-500":
+                state.searchType === "semantic",
+            }}
+            onClick={() => setSearchType("semantic")}
+          >
+            Semantic
+          </button>
+          <button
+            classList={{
+              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "bg-fuchsia-100 border-fuchsia-500":
+                state.searchType === "fulltext",
+            }}
+            onClick={() => setSearchType("fulltext")}
+          >
+            Fulltext
+          </button>
         </div>
-        <div class={styles.qualifier}>
-            <label>Search Type</label>
-            <div class={styles.toggleGroup}>
-                <button
-                    class={`${styles.button} ${state.searchType === 'hybrid' ? styles.active : ''}`}
-                    onClick={() => setSearchType('hybrid')}
-                >
-                    Hybrid
-                </button>
-                <button
-                    class={`${styles.button} ${state.searchType === 'semantic' ? styles.active : ''}`}
-                    onClick={() => setSearchType('semantic')}
-                >
-                    Semantic
-                </button>
-                <button
-                    class={`${styles.button} ${state.searchType === 'fulltext' ? styles.active : ''}`}
-                    onClick={() => setSearchType('fulltext')}
-                >
-                    Fulltext
-                </button>
-            </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <label>Episode Range</label>
+        <div class="grid grid-cols-2 gap-4">
+          <input
+            type="number"
+            placeholder="Min"
+            value={state.episodeRangeMin || ""}
+            onInput={(e) => setEpisodeRangeMin(+e.currentTarget.value)}
+            class="border border-gray-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
+          />
+          <input
+            type="number"
+            placeholder="Max"
+            value={state.episodeRangeMax || ""}
+            onInput={(e) => setEpisodeRangeMax(+e.currentTarget.value)}
+            class="border border-gray-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
+          />
         </div>
-        <div class={styles.qualifier}>
-            <label>Episode Range</label>
-            <div class={styles.rangeInputGroup}>
-                <div class={styles.labelRow}>
-                    <label class={styles.smallLabel}>Min</label>
-                    <label class={styles.smallLabel}>Max</label>
-                </div>
-                <div class={styles.inputRow}>
-                    <input
-                        class={styles.rangeInput}
-                        type="number"
-                        value={state.episodeRangeMin || ''}
-                        onInput={(e) => setEpisodeRangeMin(+e.currentTarget.value)}
-                    />
-                    <input
-                        class={styles.rangeInput}
-                        type="number"
-                        value={state.episodeRangeMax || ''}
-                        onInput={(e) => setEpisodeRangeMax(+e.currentTarget.value)}
-                    />
-                </div>
-            </div>
-        </div>
-    </>);
+      </div>
+    </div>
+  );
 }
 
 export default SearchQualifiers;
