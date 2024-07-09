@@ -1,4 +1,6 @@
 import { useSearch } from "./SearchContext";
+import { Collapsable } from "./components/Collapsable";
+import MobileSidebar from "./components/MobileSidebar";
 import SearchQualifiers from "./components/SearchQualifiers";
 import SearchResults from "./components/SearchResults";
 
@@ -7,9 +9,11 @@ export const AppContainer = () => {
 
   return (
     <div class="flex h-[100vh]">
-      <div class="w-1/4 p-4 border-r border-gray-300">
-        <SearchQualifiers />
+      <div class="md:hidden">
+        <MobileSidebar />
       </div>
+      <Collapsable />
+
       <div class="w-3/4 p-4 flex flex-col">
         <input
           type="text"

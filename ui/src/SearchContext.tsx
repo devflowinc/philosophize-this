@@ -9,6 +9,8 @@ type SearchState = {
   dateRangeFrom: string | undefined;
   dateRangeTo: string | undefined;
   pageNumber: number;
+  sidebarOpen: boolean;
+  menuOpen: boolean;
 };
 
 type SearchActions = {
@@ -19,6 +21,8 @@ type SearchActions = {
   setDateRangeFrom: (from: string | undefined) => void;
   setDateRangeTo: (to: string | undefined) => void;
   setPageNumber: (pageNumber: number) => void;
+  setSidebarOpen: (open: boolean) => void;
+  setMenuOpen: (open: boolean) => void;
 };
 
 type SearchStore = [SearchState, SearchActions];
@@ -34,6 +38,8 @@ export function SearchProvider(props: { children: JSX.Element }) {
     dateRangeFrom: undefined,
     dateRangeTo: undefined,
     pageNumber: 1,
+    sidebarOpen: true,
+    menuOpen: false,
   });
 
   const store: SearchStore = [
@@ -46,6 +52,8 @@ export function SearchProvider(props: { children: JSX.Element }) {
       setDateRangeFrom: (from) => setState("dateRangeFrom", from),
       setDateRangeTo: (to) => setState("dateRangeTo", to),
       setPageNumber: (pageNumber) => setState("pageNumber", pageNumber),
+      setSidebarOpen: (open) => setState("sidebarOpen", open),
+      setMenuOpen: (open) => setState("menuOpen", open),
     },
   ];
 

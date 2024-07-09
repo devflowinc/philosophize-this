@@ -1,4 +1,5 @@
 import { useSearch } from "../SearchContext";
+import { VsClose } from "solid-icons/vs";
 
 function SearchQualifiers() {
   const [
@@ -9,13 +10,23 @@ function SearchQualifiers() {
       setEpisodeRangeMax,
       setDateRangeFrom,
       setDateRangeTo,
+      setMenuOpen,
     },
   ] = useSearch();
 
   return (
     <div>
       <div class="flex flex-col gap-2 mb-4">
-        <label>Date Range</label>
+        <div class="flex justify-between items-center">
+          <label>Date Range</label>
+          <div
+            class="md:hidden hover:cursor-pointer hover:bg-gray-100 rounded-full p-1"
+            onClick={() => setMenuOpen(false)}
+          >
+            <VsClose class="h-5 w-5" />
+          </div>
+        </div>
+
         <label class="text-sm text-gray-600">From</label>
         <input
           type="date"
@@ -33,10 +44,10 @@ function SearchQualifiers() {
       </div>
       <div class="flex flex-col gap-2 mb-4">
         <label>Search Type</label>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-3 gap-2">
           <button
             classList={{
-              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "px-1 py-2 border border-gray-300 text-sm rounded-sm": true,
               "bg-fuchsia-100 border-fuchsia-500":
                 state.searchType === "hybrid",
             }}
@@ -46,7 +57,7 @@ function SearchQualifiers() {
           </button>
           <button
             classList={{
-              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "px-2 py-2 border border-gray-300 text-sm rounded-sm": true,
               "bg-fuchsia-100 border-fuchsia-500":
                 state.searchType === "semantic",
             }}
@@ -56,7 +67,7 @@ function SearchQualifiers() {
           </button>
           <button
             classList={{
-              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "px-2 py-2 border border-gray-300 text-sm rounded-sm": true,
               "bg-fuchsia-100 border-fuchsia-500":
                 state.searchType === "fulltext",
             }}
