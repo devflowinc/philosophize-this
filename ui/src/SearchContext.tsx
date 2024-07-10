@@ -29,8 +29,8 @@ export function SearchProvider(props: { children: JSX.Element }) {
   const [state, setState] = createStore<SearchState>({
     query: "",
     searchType: "hybrid",
-    episodeRangeMin: undefined,
-    episodeRangeMax: undefined,
+    episodeRangeMin: 1,
+    episodeRangeMax: 191,
     dateRangeFrom: undefined,
     dateRangeTo: undefined,
     pageNumber: 1,
