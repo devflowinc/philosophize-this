@@ -24,7 +24,7 @@ export const fetchSearchResults = debounce(
     dateRangeTo: string | undefined,
     pageNumber: number,
     setEpisodes: Setter<Episode[]>,
-    setIsLoading: Setter<boolean>,
+    setIsLoading: Setter<boolean>
   ) => {
     if (!query) {
       setEpisodes([]);
@@ -94,7 +94,7 @@ export const fetchSearchResults = debounce(
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          `API error: ${errorData.message || response.statusText}`,
+          `API error: ${errorData.message || response.statusText}`
         );
       }
 
@@ -115,7 +115,7 @@ export const fetchSearchResults = debounce(
                   day: "numeric",
                   year: "numeric",
                   timeZone: "UTC",
-                },
+                }
               )
             : "Unknown Date",
           chunk:
@@ -130,14 +130,14 @@ export const fetchSearchResults = debounce(
           paragraphCountGroup:
             scoreChunk?.metadata?.[0]?.metadata?.paragraph_count_group || 0,
           duration: formatDuration(
-            scoreChunk?.metadata?.[0]?.metadata?.podcast_duration,
+            scoreChunk?.metadata?.[0]?.metadata?.podcast_duration
           ),
           estimatedTimestamp: getEstimatedTimestamp(
             scoreChunk?.metadata?.[0]?.metadata?.character_count_preceeding,
             scoreChunk?.metadata?.[0]?.metadata?.character_count_group,
-            scoreChunk?.metadata?.[0]?.metadata?.podcast_duration,
+            scoreChunk?.metadata?.[0]?.metadata?.podcast_duration
           ),
-        }),
+        })
       );
 
       setEpisodes((prevEpisodes) => [...prevEpisodes, ...episodes]);
@@ -148,5 +148,5 @@ export const fetchSearchResults = debounce(
       setIsLoading(false);
     }
   },
-  300,
+  300
 );

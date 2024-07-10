@@ -16,27 +16,33 @@ function SearchQualifiers() {
     <div>
       <div class="flex flex-col gap-2 mb-4">
         <label>Date Range</label>
-        <label class="text-sm text-gray-600">From</label>
-        <input
-          type="date"
-          value={state.dateRangeFrom || ""}
-          onInput={(e) => setDateRangeFrom(e.currentTarget.value)}
-          class="border border-gray-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
-        />
-        <label class="text-sm text-gray-600">To</label>
-        <input
-          type="date"
-          value={state.dateRangeTo || ""}
-          onInput={(e) => setDateRangeTo(e.currentTarget.value)}
-          class="border border-gray-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
-        />
+        <div class="flex gap-2">
+          <div>
+            <label class="text-sm text-zinc-600">From</label>
+            <input
+              type="date"
+              value={state.dateRangeFrom || ""}
+              onInput={(e) => setDateRangeFrom(e.currentTarget.value)}
+              class="border border-zinc-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
+            />
+          </div>
+          <div>
+            <label class="text-sm text-zinc-600">To</label>
+            <input
+              type="date"
+              value={state.dateRangeTo || ""}
+              onInput={(e) => setDateRangeTo(e.currentTarget.value)}
+              class="border border-zinc-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
+            />
+          </div>
+        </div>
       </div>
       <div class="flex flex-col gap-2 mb-4">
         <label>Search Type</label>
         <div class="grid grid-cols-3 gap-4">
           <button
             classList={{
-              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "px-2 py-4 border border-zinc-300 rounded-sm": true,
               "bg-fuchsia-100 border-fuchsia-500":
                 state.searchType === "hybrid",
             }}
@@ -46,7 +52,7 @@ function SearchQualifiers() {
           </button>
           <button
             classList={{
-              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "px-2 py-4 border border-zinc-300 rounded-sm": true,
               "bg-fuchsia-100 border-fuchsia-500":
                 state.searchType === "semantic",
             }}
@@ -56,7 +62,7 @@ function SearchQualifiers() {
           </button>
           <button
             classList={{
-              "px-2 py-4 border border-gray-300 rounded-sm": true,
+              "px-2 py-4 border border-zinc-300 rounded-sm": true,
               "bg-fuchsia-100 border-fuchsia-500":
                 state.searchType === "fulltext",
             }}
@@ -74,14 +80,14 @@ function SearchQualifiers() {
             placeholder="Min"
             value={state.episodeRangeMin || ""}
             onInput={(e) => setEpisodeRangeMin(+e.currentTarget.value)}
-            class="border border-gray-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
+            class="border border-zinc-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
           />
           <input
             type="number"
             placeholder="Max"
             value={state.episodeRangeMax || ""}
             onInput={(e) => setEpisodeRangeMax(+e.currentTarget.value)}
-            class="border border-gray-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
+            class="border border-zinc-300 rounded-sm p-2 w-full focus:outline-fuchsia-500"
           />
         </div>
       </div>

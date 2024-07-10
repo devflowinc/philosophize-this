@@ -24,7 +24,7 @@ const EstimatedTimestampLinkToYouTube: Component<
   )}`;
 
   return (
-    <p class="text-sm text-gray-600">
+    <p class="text-sm text-zinc-600">
       <a
         href={timestampedLink}
         target="_blank"
