@@ -1,9 +1,14 @@
+import { BiRegularFilter } from "solid-icons/bi";
 import { useSearch } from "./SearchContext";
 import SearchQualifiers from "./components/SearchQualifiers";
 import SearchResults from "./components/SearchResults";
+import { createSignal } from "solid-js";
 
 export const AppContainer = () => {
   const [state, { setQuery }] = useSearch();
+  const [filters, setFilters] = createSignal(false);
+
+  const toggleFilters = () => setFilters((e) => !e);
 
   return (
     <div class=" h-[100vh] bg-zinc-50">
@@ -16,15 +21,19 @@ export const AppContainer = () => {
           placeholder="Search for anything"
           value={state.query}
           onInput={(e) => setQuery(e.currentTarget.value)}
-          class="border border-zinc-300 p-2 w-full focus:outline-fuchsia-500 rounded-md my-8"
+          class="border border-zinc-300 w-full focus:outline-fuchsia-500 rounded-lg mt-8 p-4 mb-4"
         />
-        <section class="flex gap-4">
-          <div class="w-1/4 border-zinc-300">
-            <SearchQualifiers />
-          </div>
-          <div class="w-3/4  flex flex-col">
-            <SearchResults />
-          </div>
+
+        <div>
+          <button class="flex gap-2 items-center" onClick={toggleFilters}>
+            <BiRegularFilter /> Filters
+          </button>
+
+          {filters() && <SearchQualifiers />}
+        </div>
+
+        <section>
+          <SearchResults />
         </section>
       </main>
     </div>
