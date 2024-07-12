@@ -2,12 +2,14 @@ import { FiExternalLink } from "solid-icons/fi";
 import EstimatedTimestampLinkToYouTube from "./EstimatedTimestampLinkToYouTube";
 import { BsDot } from "solid-icons/bs";
 import type { Episode } from "../types";
+import { Show } from "solid-js";
 
 export const EpisodeCard = ({ episode }: { episode: Episode }) => {
+  if (!episode?.episodeLink || !episode?.transcriptLink) return null;
   return (
     <a
       class="border-fuchsia-200 border-4 p-4  relative bg-white rounded-md shadow-none transition-all hover:border-fuchsia-400 hover:shadow-md flex flex-col justify-between"
-      href={episode.episodeLink}
+      href={episode?.episodeLink ?? ""}
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -32,12 +34,16 @@ export const EpisodeCard = ({ episode }: { episode: Episode }) => {
 
         <BsDot class="w-3 h-3" />
 
-        <a
-          class="text-sm text-zinc-600 hover:text-fuchsia-500"
-          href={episode.transcriptLink}
-        >
-          Transcript <FiExternalLink class="inline" />
-        </a>
+        <Show when={episode.transcriptLink}>
+          {(link) => (
+            <a
+              class="text-sm text-zinc-600 hover:text-fuchsia-500"
+              href={link()}
+            >
+              Transcript <FiExternalLink class="inline" />
+            </a>
+          )}
+        </Show>
       </footer>
     </a>
   );
