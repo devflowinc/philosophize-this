@@ -41,13 +41,13 @@ function SearchQualifiers() {
             <button
               type="button"
               classList={{
-                "relative text-capitalize -ml-px inline-flex items-center p-3 text-sm font-semibold text-gray-900 ring-1 ring-inset focus:z-10 transition-colors grow justify-center":
+                "relative text-capitalize -ml-px inline-flex items-center p-3 text-sm font-semibold text-zinc-900 ring-1 ring-inset focus:z-10 transition-colors grow justify-center":
                   true,
                 "rounded-l-md": i === 0,
                 "rounded-r-md": i === 2,
                 "bg-fuchsia-400 ring-fuchsia-500 text-white":
                   state.searchType === type,
-                "bg-white hover:bg-gray ring-gray-300":
+                "bg-white hover:bg-zinc ring-zinc-300":
                   state.searchType !== type,
               }}
               onClick={() => setSearchType(type)}
