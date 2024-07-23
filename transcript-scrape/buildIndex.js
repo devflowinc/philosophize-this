@@ -45,9 +45,10 @@ const handleNavGroup = async (
   
   const podcastDuration = await getPodcastDuration(groupTrackingId);
   let cumulativeCharacterCount = 0
+  const episodeTitleParts = episodeTitle.split("-");
+  const episodeName = episodeTitleParts.length > 1 ? episodeTitleParts[1].trim()  : episodeTitleParts[0];
   for (const paragraph of paragraphs) {
     // get the cumulative character count of all previous paragraphs
-    
 
     chunksToCreate.push({
       group_tracking_ids: [groupTrackingId],
@@ -56,9 +57,13 @@ const handleNavGroup = async (
       time_stamp: new Date(timeStamp).toISOString(),
       link: groupTrackingId,
       upsert_by_tracking_id: true,
+		distance_phrase: {
+			distance_factor: 0.25,
+			phrase: episodeName
+		},
       metadata: {
         episode_number: episodeNumber,
-        episode_title: episodeTitle,
+        episode_title: episodeName,
         transcript_link: transcriptLink,
         paragraph_number: chunkIndex+1,
         paragraph_count_group: paragraphs.length,
